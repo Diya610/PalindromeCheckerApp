@@ -1,13 +1,16 @@
 import java.util.Scanner;
-import java.util.Stack;
-import java.util.ArrayDeque;
-import java.util.Deque;
 
 /*
- * UC12 - Strategy Pattern for Palindrome Algorithms
+ * MAIN CLASS - UseCase13PalindromeCheckerApp
  *
- * This program allows choosing different palindrome
- * checking algorithms at runtime using the Strategy Pattern.
+ * Use Case 13: Performance Comparison
+ *
+ * Description:
+ * This class measures and compares the execution
+ * performance of palindrome validation algorithms.
+ *
+ * It captures start time and end time and calculates
+ * total execution duration.
  */
 
 public class PalindromeCheckerApp {
@@ -16,84 +19,44 @@ public class PalindromeCheckerApp {
 
         Scanner scanner = new Scanner(System.in);
 
+        // Take input from user
         System.out.print("Enter a string: ");
         String input = scanner.nextLine();
 
-        System.out.println("\nChoose Palindrome Algorithm:");
-        System.out.println("1. Stack Strategy");
-        System.out.println("2. Deque Strategy");
-        System.out.print("Enter choice: ");
+        // Record start time
+        long startTime = System.nanoTime();
 
-        int choice = scanner.nextInt();
+        // Call palindrome checking method
+        boolean result = checkPalindrome(input);
 
-        PalindromeStrategy strategy;
+        // Record end time
+        long endTime = System.nanoTime();
 
-        // Select strategy at runtime
-        if (choice == 1) {
-            strategy = new StackStrategy();
-        } else {
-            strategy = new DequeStrategy();
-        }
+        // Calculate execution time
+        long executionTime = endTime - startTime;
 
-        boolean result = strategy.check(input);
-
-        System.out.println("\nInput: " + input);
-        System.out.println("Is Palindrome: " + result);
+        // Display results
+        System.out.println("\nInput : " + input);
+        System.out.println("Is Palindrome : " + result);
+        System.out.println("Execution Time : " + executionTime + " ns");
 
         scanner.close();
     }
-}
 
-/*
- * Strategy Interface
- */
-interface PalindromeStrategy {
-    boolean check(String input);
-}
+    // Palindrome checking method
+    public static boolean checkPalindrome(String input) {
 
-/*
- * Stack Based Strategy
- */
-class StackStrategy implements PalindromeStrategy {
+        int start = 0;
+        int end = input.length() - 1;
 
-    public boolean check(String input) {
+        while (start < end) {
 
-        Stack<Character> stack = new Stack<>();
-
-        // Push characters to stack
-        for (char c : input.toCharArray()) {
-            stack.push(c);
-        }
-
-        // Compare stack with original string
-        for (char c : input.toCharArray()) {
-            if (c != stack.pop()) {
+            if (input.charAt(start) != input.charAt(end)) {
                 return false;
             }
-        }
 
-        return true;
-    }
-}
-
-/*
- * Deque Based Strategy
- */
-class DequeStrategy implements PalindromeStrategy {
-
-    public boolean check(String input) {
-
-        Deque<Character> deque = new ArrayDeque<>();
-
-        for (char c : input.toCharArray()) {
-            deque.addLast(c);
-        }
-
-        while (deque.size() > 1) {
-
-            if (deque.removeFirst() != deque.removeLast()) {
-                return false;
-            }
+            start++;
+            end--;
         }
 
         return true;
