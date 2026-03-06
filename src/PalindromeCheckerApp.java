@@ -1,41 +1,58 @@
 import java.util.Scanner;
 
+/*
+ * UC11 - Object-Oriented Palindrome Service
+ *
+ * This program checks whether a given string is a palindrome
+ * using object-oriented design.
+ * The palindrome logic is encapsulated inside the PalindromeService class.
+ */
+
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         // Take input from user
-        System.out.print("Enter a text: ");
-        String input = sc.nextLine();
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
 
-        // Normalize string
-        // Convert to lowercase and remove spaces
-        String normalized = input.toLowerCase().replaceAll("\\s+", "");
+        // Create object of service class
+        PalindromeService service = new PalindromeService();
 
-        boolean isPalindrome = true;
+        // Call palindrome method
+        boolean result = service.checkPalindrome(input);
+
+        // Display result
+        System.out.println("Input: " + input);
+        System.out.println("Is Palindrome: " + result);
+
+        scanner.close();
+    }
+}
+
+/*
+ * Service class that contains palindrome logic
+ */
+class PalindromeService {
+
+    // Method to check palindrome
+    public boolean checkPalindrome(String input) {
 
         int start = 0;
-        int end = normalized.length() - 1;
+        int end = input.length() - 1;
 
-        // Check palindrome
-        while(start < end) {
+        while (start < end) {
 
-            if(normalized.charAt(start) != normalized.charAt(end)) {
-                isPalindrome = false;
-                break;
+            if (input.charAt(start) != input.charAt(end)) {
+                return false;
             }
 
             start++;
             end--;
         }
 
-        // Output
-        System.out.println("Original Input: " + input);
-        System.out.println("Processed Input: " + normalized);
-        System.out.println("Is Palindrome: " + isPalindrome);
-
-        sc.close();
+        return true;
     }
 }
