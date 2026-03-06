@@ -2,35 +2,40 @@ import java.util.Scanner;
 
 public class PalindromeCheckerApp {
 
-    // Recursive function to check palindrome
-    private static boolean checkPalindrome(String s, int start, int end) {
-
-        // Base condition
-        if (start >= end) {
-            return true;
-        }
-
-        // If characters don't match
-        if (s.charAt(start) != s.charAt(end)) {
-            return false;
-        }
-
-        // Recursive call
-        return checkPalindrome(s, start + 1, end - 1);
-    }
-
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
+        // Take input from user
         System.out.print("Enter a text: ");
-        String input = scanner.nextLine();
+        String input = sc.nextLine();
 
-        boolean isPalindrome = checkPalindrome(input, 0, input.length() - 1);
+        // Normalize string
+        // Convert to lowercase and remove spaces
+        String normalized = input.toLowerCase().replaceAll("\\s+", "");
 
-        System.out.println("Input: " + input);
-        System.out.println("Is Palindrome?: " + isPalindrome);
+        boolean isPalindrome = true;
 
-        scanner.close();
+        int start = 0;
+        int end = normalized.length() - 1;
+
+        // Check palindrome
+        while(start < end) {
+
+            if(normalized.charAt(start) != normalized.charAt(end)) {
+                isPalindrome = false;
+                break;
+            }
+
+            start++;
+            end--;
+        }
+
+        // Output
+        System.out.println("Original Input: " + input);
+        System.out.println("Processed Input: " + normalized);
+        System.out.println("Is Palindrome: " + isPalindrome);
+
+        sc.close();
     }
 }
